@@ -1,0 +1,7 @@
+[pg]
+pg-master.local ansible_host=
+pg-slave.local ansible_host=
+[master]
+pg-master.local ansible_host=
+[slave]
+pg-slave.local ansible_host=

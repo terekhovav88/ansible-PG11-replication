@@ -1,0 +1,13 @@
+---
+
+- name: reload firewalld
+  service: name=firewalld state=reloaded
+
+- name: start pg
+  service: name=postgresql-11 state=started
+
+- name: enable pg
+  service: name=postgresql-11 state=enabled
+
+- name: restart pg
+  service: name=postgresql-11 state=restarted

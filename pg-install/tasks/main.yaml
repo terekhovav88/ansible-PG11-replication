@@ -1,0 +1,39 @@
+- name: Install rpm PG 11 repo
+  yum:
+    name: https://yum.postgresql.org/11/redhat/rhel-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+    state: present
+
+- name: install PG11
+  yum:
+    state: present
+    name:
+      - epel-release
+      - mc
+      - net-tools
+      - postgresql11-server
+      - postgresql11
+
+- name: open ports
+  firewalld:
+    port: 5432/tcp
+    permanent: true
+    state: enabled
+  notify:
+    - reload firewalld
+
+- name: add hosts
+  template: src=../templates/hosts.j2 dest=/etc/hosts mode=0664
+
+- name: initiate pg base
+  command: /usr/pgsql-11/bin/postgresql-11-setup initdb
+  register: command_result
+  changed_when: "command_result.stdout == 'Ignoring failure...'"
+
+- name: backup pg conf
+  command: cp /var/lib/pgsql/11/data/postgresql.conf /tmp/
+  register: command_result
+  changed_when: "command_result.stdout == 'Ignoring failure...'"
+
+
+
+

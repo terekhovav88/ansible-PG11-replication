@@ -1,0 +1,7 @@
+---
+
+- name: start pg
+  service: name=postgresql-11 state=started
+
+- name: enable pg
+  service: name=postgresql-11 enabled=yes

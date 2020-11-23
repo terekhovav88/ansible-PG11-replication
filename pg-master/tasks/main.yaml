@@ -1,0 +1,17 @@
+- name: pg-conf
+  copy: src=../files/postgresql.conf dest=/var/lib/pgsql/11/data/postgresql.conf mode=0400 owner=postgres group=postgres
+
+- name: pghba-conf
+  template: src=../templates/pg_hba.j2 dest=/var/lib/pgsql/11/data/pg_hba.conf mode=0400 owner=postgres group=postgres
+  notify:
+    - enable pg
+
+- name: Start PG
+  service: name=postgresql-11 state=started
+
+- name: create repluser
+  command: psql -U postgres -c "CREATE USER repl_user REPLICATION LOGIN CONNECTION LIMIT 2 ENCRYPTED PASSWORD '4UtKbw'"
+  register: command_result
+  changed_when: "command_result.stdout == 'Ignoring failure...'"
+
+

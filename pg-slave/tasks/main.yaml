@@ -1,0 +1,21 @@
+- name: rm dir pg
+  file:
+    state: absent
+    path: /var/lib/pgsql/11/data/
+
+- name: download data
+  command: pg_basebackup -P -R -X stream -c fast -h pg-master -U repl_user -D /var/lib/pgsql/11/data/
+  become: true
+  become_user: postgres
+  register: command_result
+  changed_when: "command_result.stdout == 'Ignoring failure...'"
+
+- name: add trigger
+  shell: echo "trigger_file = '/tmp/MasterNow'">>/var/lib/pgsql/11/data/recovery.conf
+  become: true
+  become_user: postgres
+  register: command_result
+  changed_when: "command_result.stdout == 'Ignoring failure...'"
+
+- name: Start PG
+  service: name=postgresql-11 state=started

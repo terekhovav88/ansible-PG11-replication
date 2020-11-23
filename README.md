@@ -1,1 +1,2 @@
-# ansible-PG11-replication
+# PG11 master-slave replica
+

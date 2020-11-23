@@ -1,0 +1,15 @@
+---
+- hosts: pg
+  gather_facts: true
+  roles:
+    - pg-install
+
+- hosts: master
+  gather_facts: true
+  roles:
+    - pg-master
+
+- hosts: slave
+  gather_facts: true
+  roles:
+    - pg-slave

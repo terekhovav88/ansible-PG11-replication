@@ -1,0 +1,7 @@
+---
+
+pg_version: "11"
+pg_master_host: "pg-master"
+pg_master_ip: ""
+pg_slave_host: "pg-slave"
+pg_slave_ip: ""
